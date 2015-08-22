@@ -7,11 +7,12 @@ module.exports = (I={}) ->
     selectedOption: 0
 
   lineHeight = 20
-  
+
   I: I
   move: ->
-    I.selectedOption += 1
-    I.selectedOption = I.selectedOption % I.options.length
+    if I.options
+      I.selectedOption += 1
+      I.selectedOption = I.selectedOption % I.options.length
 
   update: (t) ->
     I.age += t
