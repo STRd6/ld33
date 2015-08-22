@@ -141,6 +141,12 @@ document.addEventListener('keydown', keyHandler, false)
 global.showDialog = (newDialog) ->
   dialog = Dialog newDialog
 
+global.showConversation = (conversation) ->
+  dialogs = conversation.map (convo) ->
+    Dialog convo
+
+  dialog = dialogs.shift()
+
 map = require("./map")()
 player = require("./player")
   url: "http://1.pixiecdn.com/sprites/131785/original."

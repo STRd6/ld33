@@ -22,11 +22,31 @@ module.exports = ->
     x: 9
     y: 7
   
-  enemy = Player
-    name: "BROGRE"
-    url: "http://2.pixiecdn.com/sprites/131794/original."
-    x: 9
-    y: 7
+  characters = [
+    Player
+      name: "BROGRE"
+      url: "http://2.pixiecdn.com/sprites/131794/original."
+      x: 9
+      y: 7
+      conversation: [{
+        text: """
+          BROGRE: Heyy duder... We were having a party with 
+          some BudLight Lime® Lime-A-Ritas and were 
+          wondering if we could borrow some rock salt...
+        """
+      }, {
+        text: """
+          BROGRE: So what do you say, can we borrow...
+          BROGRE: OH SHIT! Are you guys watching DIE HARD!?
+          BROGRE: Dude, I was asking
+          BROGRE: DUDE shut up, can we watch it with you?!
+        """
+      }, {
+        text: """
+          Can the Ogre(s) join you?
+        """
+      }]
+  ]
 
   map = """
     00000000000000000000
@@ -112,9 +132,22 @@ module.exports = ->
 
     enemy.draw(canvas)
 
+    characters.forEach (character) ->
+      character.draw(canvas)
+
   update: ->
 
   interact: ({x, y}) ->
+    interacted = false
+
     items.forEach (item) ->
       if item.I.x is x and item.I.y is y
         item.interact()
+        interacted = true
+    
+    return if interacted
+
+    characters.forEach (character) ->
+      if (character.I.x - x).abs() + (character.I.y - y).abs() <= 1
+        character.interact()
+        interacted = true

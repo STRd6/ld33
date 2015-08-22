@@ -21,3 +21,8 @@ module.exports = (I={}) ->
     if revert
       I.x -= x
       I.y -= y
+
+  interact: ->
+    if I.conversation
+      showConversation I.conversation.map (data) ->
+        extend {}, data
