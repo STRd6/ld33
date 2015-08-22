@@ -3,7 +3,7 @@
 # Options to choose from
 # Moving around
 # Triggered events
-# Die Hard Quotes
+# Die Hard Quotes http://www.imdb.com/title/tt0095016/quotes
 
 # Wall Sprites
 # Chair Sprites
@@ -72,6 +72,8 @@
 # Steve's dead man...
 # G_G
 
+require "cornerstone"
+
 TouchCanvas = require "touch-canvas"
 {width, height} = require "./pixie"
 
@@ -92,7 +94,53 @@ canvas = TouchCanvas
   width: width
   height: height
 
-canvas.fill "#F00"
 document.body.appendChild canvas.element()
 
-alert 'yolo'
+keyHandler = (e) ->
+  console.log e.keyCode
+
+  switch e.keyCode
+    when 13, 32
+      console.log "next"
+    when 48, 49, 50, 51, 52, 53, 54, 55, 56, 57
+      console.log e.keyCode - 48
+    when 37 # Left
+      console.log "left"
+    when 38 # Up
+      console.log "up"
+    when 39 # Right
+      console.log "right"
+    when 40 # Down
+      console.log "down"
+
+document.addEventListener('keydown', keyHandler, false)
+
+Dialog = require("./dialog")
+dialog = Dialog
+  font: "italic bold 20px monospace"
+  text: """
+    TV: Yippee-ki-yay, motherfucker.
+    DUDER: Radical   . . .
+  """
+r = 0
+
+update = (dt) ->
+  r += 1
+  r = r % 256
+  
+  dialog.update(dt)
+
+draw = (canvas) ->
+  canvas.fill "rgb(#{r}, 0, 0)"
+  dialog.draw(canvas)
+
+dt = 1/60
+t = 0
+step = (timestamp) ->
+  update(dt)
+  draw(canvas)
+  t += dt
+
+  window.requestAnimationFrame step
+
+window.requestAnimationFrame step
