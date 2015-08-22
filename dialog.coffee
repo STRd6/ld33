@@ -14,17 +14,22 @@ module.exports = (I={}) ->
     numberOfCharacters = Math.floor(I.age * I.speed)
 
     text = I.text[0...numberOfCharacters]
+    
+    if I.age % 0.5 < 0.25
+      text += "█"
 
     canvas.font I.font
 
     x = 0
-    y = 370
+    y = 384
     width = 640
-    height = 110
+    height = 96
+    
+    textColor = "#D0DDD8"
 
     # Draw frame
     canvas.drawRect
-      color: "black"
+      color: "#041008"
       x: x
       y: y
       width: width
@@ -32,28 +37,28 @@ module.exports = (I={}) ->
     
     [0, 2].forEach (i) ->
       canvas.drawRect
-        color: "#DDD"
+        color: textColor
         x: x
         y: y + i
         width: width
         height: 1
       
       canvas.drawRect
-        color: "#DDD"
+        color: textColor
         x: x
         y: y - i + height - 1
         width: width
         height: 1
       
       canvas.drawRect
-        color: "#DDD"
+        color: textColor
         x: x + i
         y: y
         width: 1
         height: height
       
       canvas.drawRect
-        color: "#DDD"
+        color: textColor
         x: x - i - 1 + width
         y: y
         width: 1
@@ -63,9 +68,7 @@ module.exports = (I={}) ->
     lines = text.split "\n"
     lines.forEach (line, i) ->
       canvas.drawText
-        color: "#DDD"
+        color: textColor
         text: line
         x: 10
-        y: 480 - (4 - i) * lineHeight
-    # Draw cursor
-    
+        y: 490 - (4 - i) * lineHeight

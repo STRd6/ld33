@@ -122,16 +122,15 @@ dialog = Dialog
     TV: Yippee-ki-yay, motherfucker.
     DUDER: Radical   . . .
   """
-r = 0
+
+background = require("./background")()
 
 update = (dt) ->
-  r += 1
-  r = r % 256
-  
+  background.update(dt)
   dialog.update(dt)
 
 draw = (canvas) ->
-  canvas.fill "rgb(#{r}, 0, 0)"
+  background.draw(canvas)
   dialog.draw(canvas)
 
 dt = 1/60
