@@ -7,7 +7,7 @@ module.exports = ->
   tiles = [
     "http://0.pixiecdn.com/sprites/131780/original."
     "http://3.pixiecdn.com/sprites/131775/original."
-    "http://2.pixiecdn.com/sprites/131782/original."
+    "http://0.pixiecdn.com/sprites/131788/original."
   ].map (name) ->
     img = new Image
     img.src = name
@@ -24,6 +24,9 @@ module.exports = ->
     00000012222100000000
     00000012222100000000
     00000011111100000000
+    00000000000000000000
+    00000000000000000000
+    00000000000000000000
     00000000000000000000
     00000000000000000000
     00000000000000000000
@@ -69,6 +72,9 @@ module.exports = ->
       y: 2
       url: "http://0.pixiecdn.com/sprites/131784/original."
   ]
+
+  passable: ({x, y}) ->
+    map[y][x] is "2"
 
   draw: (canvas) ->
     canvas.fill "rgb(32, 16, 16)"

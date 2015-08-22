@@ -105,31 +105,39 @@ canvas = TouchCanvas
 
 document.body.appendChild canvas.element()
 
-keyHandler = (e) ->
-  console.log e.keyCode
-
-  switch e.keyCode
-    when 13, 32
-      background.interact player.I
-    when 48, 49, 50, 51, 52, 53, 54, 55, 56, 57
-      console.log e.keyCode - 48
-    when 37 # Left
-      player.move x: -1, y: 0
-    when 38 # Up
-      player.move x: 0, y: -1
-    when 39 # Right
-      player.move x: 1, y: 0
-    when 40 # Down
-      player.move x: 0, y: 1
-
-document.addEventListener('keydown', keyHandler, false)
-
 Dialog = require("./dialog")
 dialog = Dialog
-  font: "italic bold 20px monospace"
   text: """
     DUDER: Radical   . . .
   """
+
+dialogs = []
+
+move = (p) ->
+  player.move p, background
+
+keyHandler = (e) ->
+  switch e.keyCode
+    when 13, 32
+      if dialog
+        if dialog.finished()
+          dialog = dialogs.shift()
+        else
+          dialog.I.age += 100
+      else
+        background.interact player.I
+    when 48, 49, 50, 51, 52, 53, 54, 55, 56, 57
+      console.log e.keyCode - 48
+    when 37 # Left
+      move x: -1, y: 0
+    when 38 # Up
+      move x: 0, y: -1
+    when 39 # Right
+      move x: 1, y: 0
+    when 40 # Down
+      move x: 0, y: 1
+
+document.addEventListener('keydown', keyHandler, false)
 
 global.showDialog = (newDialog) ->
   dialog = Dialog newDialog
@@ -140,12 +148,12 @@ player = require("./player")()
 update = (dt) ->
   background.update(dt)
   player.update(dt)
-  dialog.update(dt)
+  dialog?.update(dt)
 
 draw = (canvas) ->
   background.draw(canvas)
   player.draw(canvas)
-  dialog.draw(canvas)
+  dialog?.draw(canvas)
 
 dt = 1/60
 t = 0

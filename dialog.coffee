@@ -7,8 +7,12 @@ module.exports = (I={}) ->
 
   lineHeight = 20
   
+  I: I
   update: (t) ->
     I.age += t
+
+  finished: ->
+    I.age * I.speed >= I.text.length
 
   draw: (canvas, t) ->
     numberOfCharacters = Math.floor(I.age * I.speed)
