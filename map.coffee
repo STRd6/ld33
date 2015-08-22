@@ -20,7 +20,7 @@ module.exports = ->
     name: "Knight Jr"
     url: "http://0.pixiecdn.com/sprites/131792/original."
     x: 9
-    y: 7
+    y: 8
   
   characters = [
     Player
@@ -45,6 +45,10 @@ module.exports = ->
         text: """
           Can the Ogre(s) join you?
         """
+        options: [
+          "Sure, grab a chair"
+          "Sorry, it's kind of a goblins only thing..."
+        ]
       }]
   ]
 
@@ -75,8 +79,14 @@ module.exports = ->
     I: I
     draw: (canvas) ->
       canvas.drawImage(img, I.x * tileWidth, I.y * tileHeight)
+    conversation: ->
+      if I.conversation
+        I.conversation.map (c) ->
+          extend {}, c
     interact: ->
-      if message = I.messages?.rand()
+      if conversation = this.conversation()
+        showConversation conversation
+      else if message = I.messages?.rand()
         showDialog
           text: message
           font: I.font
@@ -105,6 +115,11 @@ module.exports = ->
       x: 9
       y: 2
       url: "http://0.pixiecdn.com/sprites/131784/original."
+      conversation: [{
+        text: """
+          STEVE: BOSS says we shouldn't mess into that...
+        """
+      }]
   ]
 
   passable: ({x, y}) ->

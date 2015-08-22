@@ -4,12 +4,15 @@ module.exports = (I={}) ->
     age: 0
     font: " bold 20px monospace"
     speed: 10
+    selectedOption: 0
 
   lineHeight = 20
   
   I: I
   move: ->
-    # TODO: Choices and selecting
+    I.selectedOption += 1
+    I.selectedOption = I.selectedOption % I.options.length
+
   update: (t) ->
     I.age += t
 
@@ -78,3 +81,19 @@ module.exports = (I={}) ->
         text: line
         x: 10
         y: 490 - (4 - i) * lineHeight
+
+    # Draw options
+    if this.finished()
+      if options = I.options
+        options.forEach (option, i) ->
+          if i is I.selectedOption
+            canvas.drawText
+              color: textColor
+              text: "▶"
+              x: 10
+              y: 490 - (2 - i) * lineHeight
+          canvas.drawText
+            color: textColor
+            text: option
+            x: 30
+            y: 490 - (2 - i) * lineHeight
