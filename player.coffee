@@ -6,6 +6,7 @@ module.exports = (I={}) ->
     x: 8
     y: 5
 
+  I: I
   draw: (canvas) ->
     canvas.drawImage img, I.x * 32, I.y * 32
   update: (dt) ->

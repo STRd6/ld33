@@ -110,7 +110,7 @@ keyHandler = (e) ->
 
   switch e.keyCode
     when 13, 32
-      console.log "next"
+      background.interact player.I
     when 48, 49, 50, 51, 52, 53, 54, 55, 56, 57
       console.log e.keyCode - 48
     when 37 # Left
@@ -128,9 +128,11 @@ Dialog = require("./dialog")
 dialog = Dialog
   font: "italic bold 20px monospace"
   text: """
-    TV: Yippee-ki-yay, motherfucker.
     DUDER: Radical   . . .
   """
+
+global.showDialog = (newDialog) ->
+  dialog = Dialog newDialog
 
 background = require("./background")()
 player = require("./player")()

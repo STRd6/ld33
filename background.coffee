@@ -35,16 +35,28 @@ module.exports = ->
     img = new Image
     img.src = I.url
 
+    I: I
     draw: (canvas) ->
       canvas.drawImage(img, I.x * tileWidth, I.y * tileHeight)
+    interact: ->
+      if message = I.messages?.rand()
+        showDialog
+          text: message
+          font: I.font
 
-  stuff = [
+  items = [
     Item
       name: "TV"
       x: 8
       y: 3
       url: tvURL
-    
+      font: "italic bold 20px monospace"
+      messages: [
+        """
+          TV: Yippee-ki-yay, motherfucker.
+        """
+      ]
+
     Item
       name: "Table"
       x: 9
@@ -67,7 +79,13 @@ module.exports = ->
         canvas.drawImage tiles[i], x * tileWidth, y * tileHeight
 
     # Draw Stuff
-    stuff.forEach (item) ->
+    items.forEach (item) ->
       item.draw(canvas)
 
   update: ->
+
+  interact: ({x, y}) ->
+    console.log x, y
+    items.forEach (item) ->
+      if item.I.x is x and item.I.y is y
+        item.interact()
