@@ -72,4 +72,27 @@
 # Steve's dead man...
 # G_G
 
+TouchCanvas = require "touch-canvas"
+{width, height} = require "./pixie"
+
+style = document.createElement "style"
+style.innerText = """
+  * {
+    box-sizing: border-box;
+  }
+  html, body {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+  }
+"""
+document.head.appendChild style
+
+canvas = TouchCanvas
+  width: width
+  height: height
+
+canvas.fill "#F00"
+document.body.appendChild canvas.element()
+
 alert 'yolo'
