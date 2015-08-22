@@ -106,18 +106,14 @@ canvas = TouchCanvas
 document.body.appendChild canvas.element()
 
 Dialog = require("./dialog")
-dialog = Dialog
-  text: """
-    DUDER: Radical   . . .
-  """
-
+dialog = null
 dialogs = []
 
 move = (p) ->
   if dialog
     dialog.move p
   else
-    player.move p, background
+    player.move p, map
 
 keyHandler = (e) ->
   switch e.keyCode
@@ -128,7 +124,7 @@ keyHandler = (e) ->
         else
           dialog.I.age += 100
       else
-        background.interact player.I
+        map.interact player.I
     when 48, 49, 50, 51, 52, 53, 54, 55, 56, 57
       ;# console.log e.keyCode - 48
     when 37 # Left
@@ -145,16 +141,22 @@ document.addEventListener('keydown', keyHandler, false)
 global.showDialog = (newDialog) ->
   dialog = Dialog newDialog
 
-background = require("./background")()
-player = require("./player")()
+map = require("./map")()
+player = require("./player")
+  url: "http://1.pixiecdn.com/sprites/131785/original."
+
+showDialog
+  text: """
+    #{player.I.name}: Radical   . . .
+  """
 
 update = (dt) ->
-  background.update(dt)
+  map.update(dt)
   player.update(dt)
   dialog?.update(dt)
 
 draw = (canvas) ->
-  background.draw(canvas)
+  map.draw(canvas)
   player.draw(canvas)
   dialog?.draw(canvas)
 

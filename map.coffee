@@ -14,6 +14,20 @@ module.exports = ->
 
     return img
 
+  Player = require "./player"
+
+  enemy = Player
+    name: "Knight Jr"
+    url: "http://0.pixiecdn.com/sprites/131792/original."
+    x: 9
+    y: 7
+  
+  enemy = Player
+    name: "BROGRE"
+    url: "http://2.pixiecdn.com/sprites/131794/original."
+    x: 9
+    y: 7
+
   map = """
     00000000000000000000
     00000011111100000000
@@ -75,6 +89,14 @@ module.exports = ->
 
   passable: ({x, y}) ->
     map[y][x] is "2"
+  
+  enemyAt: ({x, y, name}) ->
+    if enemy.I.x is x and enemy.I.y is y
+      showDialog 
+        text: "#{name} missed #{enemy.I.name}" 
+      return true
+    else
+      return false
 
   draw: (canvas) ->
     canvas.fill "rgb(32, 16, 16)"
@@ -88,10 +110,11 @@ module.exports = ->
     items.forEach (item) ->
       item.draw(canvas)
 
+    enemy.draw(canvas)
+
   update: ->
 
   interact: ({x, y}) ->
-    console.log x, y
     items.forEach (item) ->
       if item.I.x is x and item.I.y is y
         item.interact()
