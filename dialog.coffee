@@ -8,6 +8,8 @@ module.exports = (I={}) ->
   lineHeight = 20
   
   I: I
+  move: ->
+    # TODO: Choices and selecting
   update: (t) ->
     I.age += t
 

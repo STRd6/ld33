@@ -114,7 +114,10 @@ dialog = Dialog
 dialogs = []
 
 move = (p) ->
-  player.move p, background
+  if dialog
+    dialog.move p
+  else
+    player.move p, background
 
 keyHandler = (e) ->
   switch e.keyCode
@@ -127,7 +130,7 @@ keyHandler = (e) ->
       else
         background.interact player.I
     when 48, 49, 50, 51, 52, 53, 54, 55, 56, 57
-      console.log e.keyCode - 48
+      ;# console.log e.keyCode - 48
     when 37 # Left
       move x: -1, y: 0
     when 38 # Up
