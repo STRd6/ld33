@@ -44,6 +44,18 @@ module.exports = ->
       x: 8
       y: 3
       url: tvURL
+    
+    Item
+      name: "Table"
+      x: 9
+      y: 4
+      url: "http://3.pixiecdn.com/sprites/131783/original."
+    
+    Item
+      name: "Crate"
+      x: 9
+      y: 2
+      url: "http://0.pixiecdn.com/sprites/131784/original."
   ]
 
   draw: (canvas) ->

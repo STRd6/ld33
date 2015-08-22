@@ -83,9 +83,18 @@ style.innerText = """
     box-sizing: border-box;
   }
   html, body {
+    background-color: black;
     margin: 0;
     padding: 0;
     overflow: hidden;
+  }
+  canvas {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
   }
 """
 document.head.appendChild style
@@ -105,13 +114,13 @@ keyHandler = (e) ->
     when 48, 49, 50, 51, 52, 53, 54, 55, 56, 57
       console.log e.keyCode - 48
     when 37 # Left
-      console.log "left"
+      player.move x: -1, y: 0
     when 38 # Up
-      console.log "up"
+      player.move x: 0, y: -1
     when 39 # Right
-      console.log "right"
+      player.move x: 1, y: 0
     when 40 # Down
-      console.log "down"
+      player.move x: 0, y: 1
 
 document.addEventListener('keydown', keyHandler, false)
 
@@ -124,13 +133,16 @@ dialog = Dialog
   """
 
 background = require("./background")()
+player = require("./player")()
 
 update = (dt) ->
   background.update(dt)
+  player.update(dt)
   dialog.update(dt)
 
 draw = (canvas) ->
   background.draw(canvas)
+  player.draw(canvas)
   dialog.draw(canvas)
 
 dt = 1/60
