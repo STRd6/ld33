@@ -255,7 +255,7 @@ events =
       event: "wiz"
     }, {
       text: """
-        A fire wizard wanders in
+        A fire wizard wanders in.
       """
     }, {
       text: """
@@ -662,10 +662,22 @@ map = require("./map")()
 player = require("./player")
   url: "http://1.pixiecdn.com/sprites/131785/original."
 
-showDialog
+showConversation [{
   text: """
-    #{player.I.name}: Radical   . . .
+    Walk around and interact with stuff by pressing 
+    the ARROW KEYS and SPACE BAR
+    
+    Or not, it's up to you!
   """
+}, {
+  text: """
+    Got it?
+  """
+  options: [
+    "YEAH!"
+    "Whatever"
+  ]
+}]
 
 update = (dt) ->
   map.update(dt)

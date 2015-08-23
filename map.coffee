@@ -124,9 +124,9 @@ module.exports = ->
         """
       }, {
         text: """
-          Fire erupts from the wizard's hands destroying the TV!
-               
-              
+          Fire erupts from the wizard's hands!
+          A gigantic fireball fills the room!
+          The TV is destroyed!              
           ... and also STEVE died.
         """
         event: "fire"
