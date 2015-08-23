@@ -259,7 +259,7 @@ module.exports = ->
     Item
       name: "Knight Jr Carcass"
       x: -1
-      y: 8
+      y: 7
       url: "http://3.pixiecdn.com/sprites/131839/original."
       conversation: [{
         text: """

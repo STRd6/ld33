@@ -172,6 +172,7 @@ reviveKnightJr = ->
 
   map.updateItem "Knight Jr Carcass",
     x: -1
+    y: -1
 
 events =
   restart: ->
@@ -443,7 +444,6 @@ events =
             event: ->
               map.updateItem "Knight Jr Carcass",
                 x: 7
-                y: 7
 
               setSteveConversation [{
                 text: """
