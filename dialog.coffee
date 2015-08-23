@@ -9,6 +9,7 @@ module.exports = (I={}) ->
   lineHeight = 20
 
   I: I
+  event: I.event
   move: ->
     if I.options
       I.selectedOption += 1

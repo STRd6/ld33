@@ -115,12 +115,50 @@ move = (p) ->
   else
     player.move p, map
 
+events =
+  tv1: (dialog) ->
+    return unless dialog.I.selectedOption is 0
+
+    map.replaceItem 0,
+      name: "TV"
+      url: [
+        "http://2.pixiecdn.com/sprites/131830/original."
+        "http://3.pixiecdn.com/sprites/131831/original."
+        "http://2.pixiecdn.com/sprites/131830/original."
+        "http://3.pixiecdn.com/sprites/131831/original."
+        "http://1.pixiecdn.com/sprites/131829/original."
+      ]
+      font: "italic bold 20px monospace"
+      conversation: [{
+        text: """
+          HANS GRUBER: You know my name but who are you?
+          Just another American who saw too many movies as
+          a child? Another orphan of a bankrupt culture who
+          thinks he's John Wayne? Rambo? Marshal Dillon?
+        """
+      }, {
+        text: """
+          JOHN MCCLANE: Was always kinda partial to Roy
+          Rogers actually. I really like those sequined
+          shirts.
+        """
+      }, {
+        text: """
+          HANS GRUBER: Do you really think you have a chance
+          against us, Mr. Cowboy?
+        """
+      }, {
+        text: """
+          JOHN MCCLANE: Yippee-ki-yay, motherfucker.
+        """
+      }]
+
 keyHandler = (e) ->
   switch e.keyCode
     when 13, 32
       if dialog
         if dialog.finished()
-          # TODO: Process dialog event
+          events[dialog.event]?(dialog)
           dialog = dialogs.shift()
         else
           dialog.I.age += 100

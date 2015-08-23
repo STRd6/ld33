@@ -4,6 +4,8 @@ module.exports = ->
   
   tvURL = "http://1.pixiecdn.com/sprites/131781/original."
 
+  t = 0
+
   tiles = [
     "http://0.pixiecdn.com/sprites/131780/original."
     "http://3.pixiecdn.com/sprites/131775/original."
@@ -121,12 +123,21 @@ module.exports = ->
     row.split("")
   
   Item = (I) ->
-    img = new Image
-    img.src = I.url
+    if typeof I.url is "string"
+      img = new Image
+      img.src = I.url
+    else
+      imgs = I.url.map (url) ->
+        i = new Image
+        i.src = url
+        i
 
     I: I
     draw: (canvas) ->
-      canvas.drawImage(img, I.x * tileWidth, I.y * tileHeight)
+      if img
+        canvas.drawImage(img, I.x * tileWidth, I.y * tileHeight)
+      else
+        canvas.drawImage(imgs.wrap(Math.floor(t/0.25)), I.x * tileWidth, I.y * tileHeight)
     conversation: ->
       if I.conversation
         I.conversation.map (c) ->
@@ -145,29 +156,16 @@ module.exports = ->
       x: 8
       y: 3
       url: tvURL
-      font: "italic bold 20px monospace"
       conversation: [{
         text: """
-          HANS GRUBER: You know my name but who are you?
-          Just another American who saw too many movies as
-          a child? Another orphan of a bankrupt culture who
-          thinks he's John Wayne? Rambo? Marshal Dillon?
+          There's a bunch of old DVDs here...
+          What do you want to watch?
         """
-      }, {
-        text: """
-          JOHN MCCLANE: Was always kinda partial to Roy
-          Rogers actually. I really like those sequined
-          shirts.
-        """
-      }, {
-        text: """
-          HANS GRUBER: Do you really think you have a chance
-          against us, Mr. Cowboy?
-        """
-      }, {
-        text: """
-          JOHN MCCLANE: Yippee-ki-yay, motherfucker.
-        """
+        options: [
+          "Die Hard"
+          "Nothing"
+        ]
+        event: "tv1"
       }]
 
     Item
@@ -221,7 +219,16 @@ module.exports = ->
     characters.forEach (character) ->
       character.draw(canvas)
 
-  update: ->
+  replaceItem: (index, item) ->
+    oldItem = items[index]
+    
+    item.x ?= oldItem.I.x
+    item.y ?= oldItem.I.y
+
+    items[index] = Item item
+
+  update: (dt) ->
+    t += dt
 
   interact: ({x, y}) ->
     interacted = false
