@@ -17,12 +17,6 @@ module.exports = ->
     return img
 
   Player = require "./player"
-
-  enemy = Player
-    name: "Knight Jr"
-    url: "http://0.pixiecdn.com/sprites/131792/original."
-    x: 9
-    y: 8
   
   characters = [
     Player
@@ -76,8 +70,8 @@ module.exports = ->
     Player
       name: "BROGRE"
       url: "http://2.pixiecdn.com/sprites/131794/original."
-      x: 9
-      y: 7
+      x: -1
+      y: -1
       conversation: [{
         text: """
           BROGRE: Heyy duder... We were having a party with 
@@ -100,6 +94,11 @@ module.exports = ->
           "Sorry, it's kind of a goblins only thing..."
         ]
       }]
+    Player
+      name: "Knight Jr"
+      url: "http://0.pixiecdn.com/sprites/131792/original."
+      x: -1
+      y: -1
   ]
 
   map = """
@@ -178,12 +177,22 @@ module.exports = ->
       name: "Crate"
       x: 9
       y: 2
-      url: "http://0.pixiecdn.com/sprites/131784/original."
+      url: "http://0.pixiecdn.com/sprites/131836/original."
       conversation: [{
         text: """
           STEVE: BOSS says we shouldn't mess into that...
         """
+        options: [
+          "Whatever"
+          "Actually, you're probably right..."
+        ]
+        event: "crate"
       }]
+    Item
+      name: "Door"
+      x: 9
+      y: 8
+      url: "http://1.pixiecdn.com/sprites/131837/original."
   ]
 
   passable: ({x, y}) ->
@@ -193,14 +202,6 @@ module.exports = ->
     characters.filter (character) ->
       character.I.x is x and character.I.y is y
     .first()
-
-  enemyAt: ({x, y, name}) ->
-    if enemy.I.x is x and enemy.I.y is y
-      showDialog 
-        text: "#{name} missed #{enemy.I.name}" 
-      return true
-    else
-      return false
 
   draw: (canvas) ->
     canvas.fill "rgb(32, 16, 16)"
@@ -214,10 +215,13 @@ module.exports = ->
     items.forEach (item) ->
       item.draw(canvas)
 
-    enemy.draw(canvas)
-
     characters.forEach (character) ->
       character.draw(canvas)
+
+  updateItem: (name, changes) ->
+    items.forEach (item) ->
+      if item.I.name is name
+        extend item.I, changes
 
   replaceItem: (index, item) ->
     oldItem = items[index]

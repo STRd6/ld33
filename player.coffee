@@ -16,7 +16,6 @@ module.exports = (I={}) ->
     I.y += y
 
     revert = true unless map.passable(I)
-    revert = true if map.enemyAt(I)
 
     if revert
       I.x -= x

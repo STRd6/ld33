@@ -115,10 +115,52 @@ move = (p) ->
   else
     player.move p, map
 
+dieHardPlaying = false
+hasElixir = false
+
+emptyCrate = ->
+  hasElixir = true
+
+  map.updateItem "Crate",
+    conversation: [
+      text: """
+        It's empty.
+      """
+    ]
+
+activateCrate = ->
+  map.updateItem "Crate",
+    conversation: [{
+      text: """
+        You found a bottle of fizzy liquid and a
+        handful of rusted old bottle caps.
+      """
+      event: emptyCrate
+    }, {
+      text: """
+        STEVE: Sorry to dissapoint, but they don't keep
+        any HARD-A around here.
+      """
+    }]
+
 events =
+  crate: (dialog) ->
+    if dialog.I.selectedOption is 0
+      activateCrate()
+    else
+      map.updateItem "Crate",
+        conversation: [
+          text: """
+            MARCO: Jeez man, what's your fascination
+            with that crate?
+          """
+          event: activateCrate
+        ]
+
   tv1: (dialog) ->
     return unless dialog.I.selectedOption is 0
 
+    dieHardPlaying = true
     map.replaceItem 0,
       name: "TV"
       url: [
@@ -158,6 +200,7 @@ keyHandler = (e) ->
     when 13, 32
       if dialog
         if dialog.finished()
+          dialog.event?(dialog)
           events[dialog.event]?(dialog)
           dialog = dialogs.shift()
         else
