@@ -756,6 +756,8 @@ events =
       }]
 
 keyHandler = (e) ->
+  e.preventDefault()
+
   switch e.keyCode
     when 13, 32
       if dialog
