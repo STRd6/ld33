@@ -101,6 +101,44 @@ module.exports = ->
         ]
         event: "door"
       }]
+    Player
+      name: "Wiz"
+      url: "http://3.pixiecdn.com/sprites/131843/original."
+      x: -1
+      y: 8
+      conversation: [{
+        text: """
+          THE WIZ: Get ready to BURN!
+        """
+      }, {
+        text: """
+          THE WIZ: Just a little longer...
+        """
+      }, {
+        text: """
+          ...
+        """
+      }, {
+        text: """
+          THE WIZ: Hold on... miscast...
+        """
+      }, {
+        text: """
+          Fire erupts from the wizard's hands destroying the TV!
+               
+              
+          ... and also STEVE died.
+        """
+        event: "fire"
+      }]
+    Player
+      name: "Barb"
+      url: "http://0.pixiecdn.com/sprites/131852/original."
+      x: -1
+      y: 8
+      conversation: [{
+        text: "YOLO!"
+      }]
   ]
 
   map = """
@@ -227,6 +265,7 @@ module.exports = ->
         text: """
           This kid looks like he's 12.
         """
+        event: "carco"
       }]
   ]
 
@@ -269,6 +308,9 @@ module.exports = ->
     item.y ?= oldItem.I.y
 
     items[index] = Item item
+
+  addItem: (item) ->
+    items.push Item item
 
   triggerItems: ({x, y}) ->
     items.forEach (item) ->

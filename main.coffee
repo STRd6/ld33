@@ -159,6 +159,20 @@ openDoor = ->
   map.map[13][9] = "2"
   map.map[14][9] = "2"
 
+reviveKnightJr = ->
+  map.characters[3].I.x = 7
+  map.characters[3].I.y = 7
+
+  map.characters[3].I.conversation = [
+    text: """
+      KNIGHT JR: I think I'll just sit here a for
+      a bit.
+    """
+  ]
+
+  map.updateItem "Knight Jr Carcass",
+    x: -1
+
 events =
   restart: ->
     location.reload()
@@ -230,20 +244,37 @@ events =
     }, {
       text: """
         MARCO: I think the expression you're looking
-        for is 'jerkin off the pig'
+        for is "jerkin' off the pig"
       """
     }, {
       text: """
         STEVE: Yeah, like I was saying Helen's going
-        to leave me if I don't start jerkin off the 
-        pig... I'm not so sure that's right...
+        to leave me if I don't start jerkin' off the 
+        pig... I'm not so sure that's right either...
       """
       event: "wiz"
+    }, {
+      text: """
+        A fire wizard wanders in
+      """
+    }, {
+      text: """
+        THE WIZ: Don't all get up at once now.
+      """
     }]
       
     if dialog.I.selectedOption is 0
       map.characters[2].I.x = 7
       map.characters[2].I.y = 4
+      
+      map.characters[2].I.conversation = [
+        text: """
+          BROGRE: Quiet I'm wa...
+          BROGRE: SHUT UP BOTH OF YOU I'm wat...
+          BROGRE: That's what I was saying!
+          BROGRE: You made me miss my favorite part!
+        """
+      ]
 
       setMarcoConversation [{
         text: """
@@ -287,7 +318,30 @@ events =
         MARCO: Go ask them what they wants.
       """
     }]
-  
+
+  berserker: ->
+    # Berserker shows up
+    # Fight
+    # Marco dies
+    # Knight Jr and Berserker kill each other
+    # G_G
+
+  carco: ->
+    if hasElixir
+      setTimeout ->
+        showConversation [{
+          text: """
+            Maybe that fizzy liquid could help this kid...
+          """
+          options: [
+            "Give the kid some water"
+            "Leave him be"
+          ]
+          event: ->
+            reviveKnightJr() if dialog.I.selectedOption is 0
+        }]
+      , 0
+
   knightJr: ->
     openDoor()
 
@@ -414,7 +468,123 @@ events =
     , 0
 
   wiz: ->
+    map.characters[5].I.x = 9
     
+    setSteveConversation [
+      text: """
+        STEVE: Gawd, another asshole...
+      """
+    ]
+    
+    setMarcoConversation [
+      text: """
+        MARCO: I'm getting too old for this shit.
+      """
+    ]
+  
+  fire: ->
+    map.characters[0].I.x = -1
+    map.updateItem "TV",
+      x: -1
+    map.updateItem "Table",
+      x: -1
+    map.updateItem "Crate",
+      x: -1
+
+    ashURLs =[
+      "http://1.pixiecdn.com/sprites/131845/original."
+      "http://2.pixiecdn.com/sprites/131846/original."
+      "http://1.pixiecdn.com/sprites/131849/original."
+      "http://2.pixiecdn.com/sprites/131846/original."
+    ]
+
+    [[9, 2], [8, 3], [7, 4], [10, 5]].forEach ([x, y]) ->
+      map.addItem
+        name: "Ash"
+        x: x
+        y: y
+        url: ashURLs
+        conversation: [
+          text: """
+            It's a pile of smoldering ash.
+          """
+        ]
+
+    if map.characters[2].I.x is 7
+      setTimeout ->
+        showConversation [{
+          text: """
+            The death of TV has enraged BROGRE!
+          """
+        }, {
+          text: """
+            BROGRE hits(x2) THE WIZ for 418 DMG
+          """
+        }, {
+          text: """
+            THE WIZ dies!
+          """
+          event: ->
+            map.characters[5].I.x = -1
+
+            map.addItem
+              name: "Ash"
+              x: 9
+              y: 8
+              url: ashURLs
+              conversation: [{
+                text: """
+                  It's the smoldering remains of THE WIZ.
+                """
+              }]
+        }, {
+          text: """
+            BROGRE runs down the hall in a furious rage!
+          """
+          event: ->
+            map.characters[3].I.conversation = [
+              text: """
+                KNIGHT JR: Huh... did I miss something?
+              """
+              event: "berserker"
+            ]
+
+            setMarcoConversation [
+              text: """
+                MARCO: STEVE's dead man...
+              """
+            ]
+            map.characters[2].I.x = -1
+        }]
+      , 0
+    else
+      map.characters[5].I.conversation = [{
+        text: """
+          THE WIZ: Are you here to beg for the sweet
+          release of death?
+        """
+        options: ["Yes", "No"]
+      }, {
+        text: """
+          THE WIZ: BURN!
+        """
+      }, {
+        text: """
+          You burn.
+        """
+      }, {
+        text: """
+          Better luck next time!
+        """
+        event: "restart"
+      }]
+      setTimeout ->
+        showConversation [{
+          text: """
+            THE WIZ: I got more where that come from holms!
+          """
+        }]
+      , 0
 
   tv1: (dialog) ->
     return unless dialog.I.selectedOption is 0
