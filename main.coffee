@@ -160,6 +160,8 @@ openDoor = ->
   map.map[14][9] = "2"
 
 reviveKnightJr = ->
+  hasElixir = false
+
   map.characters[3].I.x = 7
   map.characters[3].I.y = 7
 
@@ -321,27 +323,22 @@ events =
     }]
 
   berserker: ->
-    # Fight
-    # Marco dies
-    # Knight Jr and Berserker kill each other
-    # G_G
-    map.characters[6].I.x = 9
-    map.characters[6].I.y = 8
-    
-    setTimeout ->
-      showConversation [{
-        text: """
-          A wild AXE MANIAC appears!
-          
-          He looks like he's starving.
-        """
-      }]
-    , 0
+    unless map.characters[6].I.x is 9
+      setTimeout ->
+        map.characters[6].I.x = 9
+        map.characters[6].I.y = 8
+      
+        showConversation [{
+          text: """
+            A wild AXE MANIAC appears!
+            
+            He looks like he's starving.
+          """
+        }]
+      , 0
     
   butcher: ->
     map.characters[1].I.y = -1
-
-  satiated: ->
     map.addItem
       name: "Splat"
       url: "http://2.pixiecdn.com/sprites/131854/original."
@@ -352,7 +349,8 @@ events =
           That's a lot of blood.
         """
       }]
-    
+
+  satiated: ->
     map.characters[6].I.conversation = [{
       text: """
         AXE MANIAC: Ahh, that reall hits the spot!
@@ -366,7 +364,7 @@ events =
         YOU: Are you coming on to me?
       """
       event: ->
-        if map.characters[3].I.x = 7 and map.characters[3].I.y = 7
+        if map.characters[3].I.x is 7 and map.characters[3].I.y is 7
           setTimeout ->
             showConversation [{
               text: """
@@ -387,6 +385,17 @@ events =
                 AXE MANIAC's greased scrotum!
               """
               event: ->
+                map.addItem
+                  name: "Splat"
+                  url: "http://2.pixiecdn.com/sprites/131854/original."
+                  x: 9
+                  y: 8
+                  conversation: [{
+                    text: """
+                      That's a lot of blood.
+                    """
+                  }]
+
                 map.characters[3].I.y = 9
             }, {
               text: """
@@ -429,17 +438,6 @@ events =
             """
             event: ->
               map.characters[6].I.x = -1
-
-              map.addItem
-                name: "Splat"
-                url: "http://2.pixiecdn.com/sprites/131854/original."
-                x: 9
-                y: 8
-                conversation: [{
-                  text: """
-                    That's a lot of blood.
-                  """
-                }]
           }]
         else
           map.characters[6].I.conversation = [{

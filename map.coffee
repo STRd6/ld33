@@ -298,7 +298,7 @@ module.exports = ->
         event: ->
           setTimeout ->
             alert 'O_O Congratulations! G_G'
-          , 0
+          , 1000
       }]
   ]
 
