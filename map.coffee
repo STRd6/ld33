@@ -283,6 +283,23 @@ module.exports = ->
         """
         event: "carco"
       }]
+    Item
+      name: "Victory"
+      x: 9
+      y: 14
+      trigger: true
+      conversation: [{
+        text: """
+          As you leave that death filled room, you
+          pick up a sword and become...
+          
+          An Adventurer!
+        """
+        event: ->
+          setTimeout ->
+            alert 'O_O Congratulations! G_G'
+          , 0
+      }]
   ]
 
   passable: ({x, y}) ->

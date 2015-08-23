@@ -342,6 +342,17 @@ events =
     map.characters[1].I.y = -1
 
   satiated: ->
+    map.addItem
+      name: "Splat"
+      url: "http://2.pixiecdn.com/sprites/131854/original."
+      x: 9
+      y: 3
+      conversation: [{
+        text: """
+          That's a lot of blood.
+        """
+      }]
+    
     map.characters[6].I.conversation = [{
       text: """
         AXE MANIAC: Ahh, that reall hits the spot!
@@ -401,6 +412,34 @@ events =
 
           map.characters[6].I.conversation = [{
             text: "AXE MANIAC: Oww, my delicate scrotum!"
+          }, {
+            text: """
+              AXE MANIAC bleeds to death.
+            """
+          }, {
+            text: """
+              A tombstone appears out of nowhere!
+              
+              it reads...
+            """
+          }, {
+            text: """
+              Here lies AXE MANIAC... He died as he lived
+              greased up and covered in blood.
+            """
+            event: ->
+              map.characters[6].I.x = -1
+
+              map.addItem
+                name: "Splat"
+                url: "http://2.pixiecdn.com/sprites/131854/original."
+                x: 9
+                y: 8
+                conversation: [{
+                  text: """
+                    That's a lot of blood.
+                  """
+                }]
           }]
         else
           map.characters[6].I.conversation = [{
