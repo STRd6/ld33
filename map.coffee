@@ -24,6 +24,54 @@ module.exports = ->
   
   characters = [
     Player
+      name: "STEVE"
+      url: "http://2.pixiecdn.com/sprites/131822/original."
+      x: 10
+      y: 5
+      conversation: [{
+        text: """
+          STEVE: Remember that project that I was really
+          excited to be working on?
+        """
+      }, {
+        text: "YOU:"
+        options: [
+          "Yeah (um) totally!"
+          "Uhhh... not really..."
+        ]
+      }, {
+        text: """
+          STEVE: Yeah... well BOSS called up and told me to 
+          cancel it...
+          ...
+          Sucks.
+        """
+      }]
+    Player
+      name: "MARCO"
+      url: "http://1.pixiecdn.com/sprites/131825/original."
+      x: 9
+      y: 3
+      conversation: [{
+        text: """
+          MARCO: So... is this like the break room or are we
+          supposed to be working here... The CRAIGSLIST ad
+          wasn't really specific.
+        """
+      }, {
+        text: """
+          STEVE: About that... have you been having any 
+          trouble with your paychecks? Because I haven't 
+          been able to cash mine the past few weeks...
+        """
+      }, {
+        text: """
+          MARCO: I don't know man, but it's totally not a
+          scam. My mom is really good at identifying
+          scams and she said this looks legit.
+        """
+      }]
+    Player
       name: "BROGRE"
       url: "http://2.pixiecdn.com/sprites/131794/original."
       x: 9
@@ -82,7 +130,7 @@ module.exports = ->
     conversation: ->
       if I.conversation
         I.conversation.map (c) ->
-          extend {}, c
+          extend {font: I.font}, c
     interact: ->
       if conversation = this.conversation()
         showConversation conversation
@@ -98,17 +146,35 @@ module.exports = ->
       y: 3
       url: tvURL
       font: "italic bold 20px monospace"
-      messages: [
+      conversation: [{
+        text: """
+          HANS GRUBER: You know my name but who are you?
+          Just another American who saw too many movies as
+          a child? Another orphan of a bankrupt culture who
+          thinks he's John Wayne? Rambo? Marshal Dillon?
         """
-          TV: Yippee-ki-yay, motherfucker.
+      }, {
+        text: """
+          JOHN MCCLANE: Was always kinda partial to Roy
+          Rogers actually. I really like those sequined
+          shirts.
         """
-      ]
+      }, {
+        text: """
+          HANS GRUBER: Do you really think you have a chance
+          against us, Mr. Cowboy?
+        """
+      }, {
+        text: """
+          JOHN MCCLANE: Yippee-ki-yay, motherfucker.
+        """
+      }]
 
     Item
       name: "Table"
-      x: 9
+      x: 7
       y: 4
-      url: "http://3.pixiecdn.com/sprites/131783/original."
+      url: "http://2.pixiecdn.com/sprites/131826/original."
     
     Item
       name: "Crate"
@@ -123,8 +189,13 @@ module.exports = ->
   ]
 
   passable: ({x, y}) ->
-    map[y][x] is "2"
-  
+    (map[y][x] is "2") and !this.characterAt({x, y})
+
+  characterAt: ({x, y}) ->
+    characters.filter (character) ->
+      character.I.x is x and character.I.y is y
+    .first()
+
   enemyAt: ({x, y, name}) ->
     if enemy.I.x is x and enemy.I.y is y
       showDialog 

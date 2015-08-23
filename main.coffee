@@ -120,6 +120,7 @@ keyHandler = (e) ->
     when 13, 32
       if dialog
         if dialog.finished()
+          # TODO: Process dialog event
           dialog = dialogs.shift()
         else
           dialog.I.age += 100
