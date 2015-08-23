@@ -137,7 +137,23 @@ module.exports = ->
       x: -1
       y: 8
       conversation: [{
-        text: "YOLO!"
+        text: "AXE MANIAC: I smell BBQ!"
+      }, {
+        text: """
+          AXE MANIAC: Looks like most of it is pretty
+          over done...
+          
+          Ah, this one's still fresh!
+        """
+        event: "butcher"
+      }, {
+        text: """
+          AXE MANIAC butchers MARCO.
+          AXE MANIAC picks up 14kg of GOBLIN MEAT
+          AXE MANIAC eats 2kg of GOBLIN MEAT
+          AXE MANIAC is no longer STARVING
+        """
+        event: "satiated"
       }]
   ]
 

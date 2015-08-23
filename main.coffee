@@ -321,11 +321,104 @@ events =
     }]
 
   berserker: ->
-    # Berserker shows up
     # Fight
     # Marco dies
     # Knight Jr and Berserker kill each other
     # G_G
+    map.characters[6].I.x = 9
+    map.characters[6].I.y = 8
+    
+    setTimeout ->
+      showConversation [{
+        text: """
+          A wild AXE MANIAC appears!
+          
+          He looks like he's starving.
+        """
+      }]
+    , 0
+    
+  butcher: ->
+    map.characters[1].I.y = -1
+
+  satiated: ->
+    map.characters[6].I.conversation = [{
+      text: """
+        AXE MANIAC: Ahh, that reall hits the spot!
+      """
+    }, {
+      text: """
+        AXE MANIAC: Get in my greased bag of holding?
+      """
+    }, {
+      text: """
+        YOU: Are you coming on to me?
+      """
+      event: ->
+        if map.characters[3].I.x = 7 and map.characters[3].I.y = 7
+          setTimeout ->
+            showConversation [{
+              text: """
+                KNIGHT JR is no longer confused.
+              """
+              event: ->
+                map.characters[3].I.x = 8
+            }, {
+              text: """
+                KNIGHT JR flees in terror!
+              """
+              event: ->
+                map.characters[3].I.x = 9
+            }, {
+              text: """
+                KNIGHT JR runs for the door.
+                KNIGHT JRs CURSED -1 SPIKED HELMET punctures
+                AXE MANIAC's greased scrotum!
+              """
+              event: ->
+                map.characters[3].I.y = 9
+            }, {
+              text: """
+                KNIGHT JR flees down the hallway!
+              """
+              event: ->
+                map.characters[3].I.y = 10
+            }, {
+              text: """
+                A trapdoor in the ceiling opens and a rock 
+                falls on your KNIGHT JR's head!
+              """
+              event: ->
+                map.characters[3].I.y = -1
+                map.updateItem "Trap",
+                  x: -1
+                  y: -1
+                map.updateItem "Knight Jr Carcass",
+                  x: 9 
+                  y: 11
+            }]
+          , 0
+
+          map.characters[6].I.conversation = [{
+            text: "AXE MANIAC: Oww, my delicate scrotum!"
+          }]
+        else
+          map.characters[6].I.conversation = [{
+            text: """
+              AXE MANIAC butchers YOU
+              AXE MANIAC picks up 17kg of GOBLIN MEAT
+            """
+          }, {
+            text: """
+              At least you'll make a delicious sandwich...
+            """
+          }, {
+            text: """
+              Better luck next time!
+            """
+            event: "restart"
+          }]
+    }]
 
   carco: ->
     if hasElixir
@@ -553,6 +646,7 @@ events =
               text: """
                 MARCO: STEVE's dead man...
               """
+              event: "berserker"
             ]
             map.characters[2].I.x = -1
         }]
