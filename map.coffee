@@ -66,6 +66,7 @@ module.exports = ->
           scam. My mom is really good at identifying
           scams and she said this looks legit.
         """
+        event: "knightJr"
       }]
     Player
       name: "BROGRE"
@@ -78,21 +79,7 @@ module.exports = ->
           some BudLight Lime® Lime-A-Ritas and were 
           wondering if we could borrow some rock salt...
         """
-      }, {
-        text: """
-          BROGRE: So what do you say, can we borrow...
-          BROGRE: OH SHIT! Are you guys watching DIE HARD!?
-          BROGRE: Dude, I was asking
-          BROGRE: DUDE shut up, can we watch it with you?!
-        """
-      }, {
-        text: """
-          Can the Ogre(s) join you?
-        """
-        options: [
-          "Sure, grab a chair"
-          "Sorry, it's kind of a goblins only thing..."
-        ]
+        event: "brogre0"
       }]
     Player
       name: "Knight Jr"
@@ -230,6 +217,16 @@ module.exports = ->
           Better luck next time!
         """
         event: "restart"
+      }]
+    Item
+      name: "Knight Jr Carcass"
+      x: -1
+      y: 8
+      url: "http://3.pixiecdn.com/sprites/131839/original."
+      conversation: [{
+        text: """
+          This kid looks like he's 12.
+        """
       }]
   ]
 

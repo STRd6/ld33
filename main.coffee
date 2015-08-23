@@ -143,6 +143,12 @@ activateCrate = ->
       """
     }]
 
+setSteveConversation = (conversation) ->
+  map.characters[0].I.conversation = conversation
+
+setMarcoConversation = (conversation) ->
+  map.characters[1].I.conversation = conversation
+
 openDoor = ->
   map.characters[4].I.x = -1
   map.map[8][9] = "2"
@@ -170,6 +176,245 @@ events =
         ]
 
   door: openDoor
+
+  brogre0: ->
+    setTimeout ->
+      if dieHardPlaying
+        convo = [{
+          text: """
+            BROGRE: So what do you say, can we borrow...
+            BROGRE: OH SHIT! Are you guys watching DIE HARD!?
+            BROGRE: Dude, I was asking
+            BROGRE: DUDE shut up, can we watch it with you?!
+          """
+        }, {
+          text: """
+            Can the Ogre(s) join you?
+          """
+          options: [
+            "Sure, grab a chair"
+            "Sorry, it's kind of a goblins only thing..."
+          ]
+          event: "brogre"
+        }]
+      else
+        convo = [{
+          text: """
+            BROGRE: So what do you say, can we borrow some
+            salt?
+          """
+        }, {
+          text: """
+            MARCO: Sorry, I don't think we have any salt...
+          """
+          selectedOption: 1
+          event: "brogre"
+        }]
+
+      showConversation convo
+    , 0
+
+  brogre: (dialog) ->
+    setSteveConversation [{
+      text: """
+        STEVE: Man I really want this job to work
+        out... After I lost all that money in the
+        stock market this is pretty much all I have
+        left...
+      """
+    }, {
+      text: """
+        STEVE: And Helen said she's going to leave
+        me if I don't start pulling off the bacon...
+      """
+    }, {
+      text: """
+        MARCO: I think the expression you're looking
+        for is 'jerkin off the pig'
+      """
+    }, {
+      text: """
+        STEVE: Yeah, like I was saying Helen's going
+        to leave me if I don't start jerkin off the 
+        pig... I'm not so sure that's right...
+      """
+      event: "wiz"
+    }]
+      
+    if dialog.I.selectedOption is 0
+      map.characters[2].I.x = 7
+      map.characters[2].I.y = 4
+
+      setMarcoConversation [{
+        text: """
+          MARCO: Why is that ogre sitting on
+          our lunch table?
+        """
+      }]
+    else
+      setMarcoConversation [{
+        text: """
+          MARCO: Did you catch the game last night?
+        """
+        options: [
+          "You know it buddy!"
+          "Sorry, not really a fan..."
+        ]
+      }]
+
+      setTimeout ->
+        showConversation [{
+          text: """
+            BROGRE: Oh, I get it... looks like
+            you guys have something planned
+            (glances at KNIGHT JR)
+          """
+        }, {
+          text: """
+            BROGRE: We'll leave you to it...
+            BROGRE: PEACE!
+          """
+          event: ->
+            map.characters[2].I.x = -1
+        }]
+      , 0
+  round2: ->
+    map.characters[2].I.x = 9
+    map.characters[2].I.y = 7
+    
+    setMarcoConversation [{
+      text: """
+        MARCO: Go ask them what they wants.
+      """
+    }]
+  
+  knightJr: ->
+    openDoor()
+
+    map.characters[3].I.x = 9
+    map.characters[3].I.y = 8
+    
+    if dieHardPlaying
+      stevesText = """
+        STEVE: Holy shit man, we're kind of in the middle
+        of this movie.
+      """
+    else
+      stevesText = """
+        STEVE: Who let you in here?
+      """
+
+    setTimeout ->
+      showConversation [{
+        text: """
+          **CRASH** 
+
+          A wild kid wearing a knight costume appears!
+        """
+      }, {
+        text: "KNIGHT JR: Prepare to die SCUM!"
+      }, {
+        text: stevesText
+      }, {
+        text: """
+          KNIGHT JR hits STEVE with his +1 SHORT SWORD
+        """
+      }, {
+        text: """
+          STEVE: You son of a bitch! That stings like a
+          motherfucker!
+        """
+      }, {
+        text: """
+          MARCO throws his -1 BEER CAN OF DEPRESSION
+          at KNIGHT JR
+                
+          The BEER CAN misses
+        """
+      }, {
+        text: "What do you do?"
+        options: [
+          "ATTACK!"
+          "Defend"
+        ]
+        event: (dialog) ->
+          if dialog.I.selectedOption is 0
+            action =
+              text: """
+                You hit KNIGHT JR with your FIST
+              """
+          else
+            action =
+              text: """
+                You cower behind MARCO
+              """
+          dialogs.unshift Dialog action
+      }, {
+        text: """
+          STEVE hits KNIGHT JR with his TARNISHED
+          EMPLOYEE OF THE MONTH TROPHY
+               
+          It's super effective!
+        """
+      }, {
+        text: """
+          KNIGHT JR was knocked unconscious.
+        """
+        event: ->
+          map.updateItem "Knight Jr Carcass",
+            x: 9
+
+          map.characters[3].I.x = -1
+          
+          # Update dialogs for STEVE, MARCO, KNIGHT JR
+          convo = [{
+            text: """
+              STEVE: I can't believe that just happened.
+              I think I need an ice pack.
+            """
+          }, {
+            text: """
+              MARCO: And that's why they made you
+              employee of the month!
+            """
+          }, {
+            text: """
+              STEVE: Do me a solid and drag that CARCASS
+              out of the doorway
+            """
+          }, {
+            text: """
+              MARCO drags KNIGHT JR into the corner.
+            """
+            event: ->
+              map.updateItem "Knight Jr Carcass",
+                x: 7
+                y: 7
+
+              setSteveConversation [{
+                text: """
+                  STEVE: Any news on that ice pack DUDER?
+                """
+              }]
+              
+              setMarcoConversation [{
+                text: """
+                  MARCO: Never a dull moment, eh DUDER?
+                """
+                event: "round2"
+              }, {
+                text: """
+                  A two headed ogre walks through the open door.
+                """
+              }]
+          }]
+          setSteveConversation convo
+          setMarcoConversation convo
+      }]
+    , 0
+
+  wiz: ->
+    
 
   tv1: (dialog) ->
     return unless dialog.I.selectedOption is 0
