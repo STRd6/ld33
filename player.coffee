@@ -21,6 +21,8 @@ module.exports = (I={}) ->
       I.x -= x
       I.y -= y
 
+    map.triggerItems(I)
+
   interact: ->
     if I.conversation
       showConversation I.conversation.map (data) ->

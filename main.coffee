@@ -143,7 +143,19 @@ activateCrate = ->
       """
     }]
 
+openDoor = ->
+  map.characters[4].I.x = -1
+  map.map[8][9] = "2"
+  map.map[9][9] = "2"
+  map.map[10][9] = "2"
+  map.map[11][9] = "2"
+  map.map[12][9] = "2"
+  map.map[13][9] = "2"
+  map.map[14][9] = "2"
+
 events =
+  restart: ->
+    location.reload()
   crate: (dialog) ->
     if dialog.I.selectedOption is 0
       activateCrate()
@@ -156,6 +168,8 @@ events =
           """
           event: activateCrate
         ]
+
+  door: openDoor
 
   tv1: (dialog) ->
     return unless dialog.I.selectedOption is 0

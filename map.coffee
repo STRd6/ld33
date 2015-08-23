@@ -99,6 +99,21 @@ module.exports = ->
       url: "http://0.pixiecdn.com/sprites/131792/original."
       x: -1
       y: -1
+    Player
+      name: "Door"
+      x: 9
+      y: 8
+      url: "http://1.pixiecdn.com/sprites/131837/original."
+      conversation: [{
+        text: """
+          STEVE: BOSS says we shouldn't go out there.
+        """
+        options: [
+          "YOU: Damnit STEVE, shut the fuck up."
+          "YOU: Thanks for the Pro-Tip™"
+        ]
+        event: "door"
+      }]
   ]
 
   map = """
@@ -125,7 +140,7 @@ module.exports = ->
     if typeof I.url is "string"
       img = new Image
       img.src = I.url
-    else
+    else if Array.isArray(I.url)
       imgs = I.url.map (url) ->
         i = new Image
         i.src = url
@@ -135,7 +150,7 @@ module.exports = ->
     draw: (canvas) ->
       if img
         canvas.drawImage(img, I.x * tileWidth, I.y * tileHeight)
-      else
+      else if imgs
         canvas.drawImage(imgs.wrap(Math.floor(t/0.25)), I.x * tileWidth, I.y * tileHeight)
     conversation: ->
       if I.conversation
@@ -189,10 +204,33 @@ module.exports = ->
         event: "crate"
       }]
     Item
-      name: "Door"
+      name: "Trap"
       x: 9
-      y: 8
-      url: "http://1.pixiecdn.com/sprites/131837/original."
+      y: 11
+      trigger: true
+      conversation: [{
+        text: """
+          A trapdoor in the ceiling opens and a rock 
+          falls on your head!
+        """
+      }, {
+        text: """
+          You die.
+        """
+      }, {
+        text: """
+          What do you want on your tombstone?
+        """
+      }, {
+        text: """
+          HAH! JK, goblins don't get tombstones.
+        """
+      }, {
+        text: """
+          Better luck next time!
+        """
+        event: "restart"
+      }]
   ]
 
   passable: ({x, y}) ->
@@ -202,6 +240,10 @@ module.exports = ->
     characters.filter (character) ->
       character.I.x is x and character.I.y is y
     .first()
+
+  characters: characters
+  items: items
+  map: map
 
   draw: (canvas) ->
     canvas.fill "rgb(32, 16, 16)"
@@ -230,6 +272,12 @@ module.exports = ->
     item.y ?= oldItem.I.y
 
     items[index] = Item item
+
+  triggerItems: ({x, y}) ->
+    items.forEach (item) ->
+      if item.I.x is x and item.I.y is y
+        if item.I.trigger
+          item.interact()
 
   update: (dt) ->
     t += dt
