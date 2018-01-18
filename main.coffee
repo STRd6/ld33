@@ -27,12 +27,12 @@
 # STEVE: "Remember that project I was really excited about... well BOSS says I
 # Shouldn't work on it any more... so forget it."
 
-# There is a chest in the room, if you try to open it steve says: Boss told us 
+# There is a chest in the room, if you try to open it steve says: Boss told us
 # not to mess into that.
 # Chest contians healing elixir and broken cassette tape
 # They don't keep the Hard-A in Lvl 1 loot tables
 
-# Wait, so do we work here, or is this the break room, because I've always 
+# Wait, so do we work here, or is this the break room, because I've always
 # thought it was the break room... That Craig's List add wasn't very specific
 # - Steve
 
@@ -252,7 +252,7 @@ events =
     }, {
       text: """
         STEVE: Yeah, like I was saying Helen's going
-        to leave me if I don't start jerkin' off the 
+        to leave me if I don't start jerkin' off the
         pig... I'm not so sure that's right either...
       """
       event: "wiz"
@@ -265,11 +265,11 @@ events =
         THE WIZ: Don't all get up at once now.
       """
     }]
-      
+
     if dialog.I.selectedOption is 0
       map.characters[2].I.x = 7
       map.characters[2].I.y = 4
-      
+
       map.characters[2].I.conversation = [
         text: """
           BROGRE: Quiet I'm wa...
@@ -315,7 +315,7 @@ events =
   round2: ->
     map.characters[2].I.x = 9
     map.characters[2].I.y = 7
-    
+
     setMarcoConversation [{
       text: """
         MARCO: Go ask them what they wants.
@@ -327,16 +327,16 @@ events =
       setTimeout ->
         map.characters[6].I.x = 9
         map.characters[6].I.y = 8
-      
+
         showConversation [{
           text: """
             A wild AXE MANIAC appears!
-            
+
             He looks like he's starving.
           """
         }]
       , 0
-    
+
   butcher: ->
     map.characters[1].I.y = -1
     map.addItem
@@ -405,7 +405,7 @@ events =
                 map.characters[3].I.y = 10
             }, {
               text: """
-                A trapdoor in the ceiling opens and a rock 
+                A trapdoor in the ceiling opens and a rock
                 falls on your KNIGHT JR's head!
               """
               event: ->
@@ -414,7 +414,7 @@ events =
                   x: -1
                   y: -1
                 map.updateItem "Knight Jr Carcass",
-                  x: 9 
+                  x: 9
                   y: 11
             }]
           , 0
@@ -428,7 +428,7 @@ events =
           }, {
             text: """
               A tombstone appears out of nowhere!
-              
+
               it reads...
             """
           }, {
@@ -478,7 +478,7 @@ events =
 
     map.characters[3].I.x = 9
     map.characters[3].I.y = 8
-    
+
     if dieHardPlaying
       stevesText = """
         STEVE: Holy shit man, we're kind of in the middle
@@ -492,7 +492,7 @@ events =
     setTimeout ->
       showConversation [{
         text: """
-          **CRASH** 
+          **CRASH**
 
           A wild kid wearing a knight costume appears!
         """
@@ -513,7 +513,7 @@ events =
         text: """
           MARCO throws his -1 BEER CAN OF DEPRESSION
           at KNIGHT JR
-                
+
           The BEER CAN misses
         """
       }, {
@@ -538,7 +538,7 @@ events =
         text: """
           STEVE hits KNIGHT JR with his TARNISHED
           EMPLOYEE OF THE MONTH TROPHY
-               
+
           It's super effective!
         """
       }, {
@@ -550,7 +550,7 @@ events =
             x: 9
 
           map.characters[3].I.x = -1
-          
+
           # Update dialogs for STEVE, MARCO, KNIGHT JR
           convo = [{
             text: """
@@ -580,7 +580,7 @@ events =
                   STEVE: Any news on that ice pack DUDER?
                 """
               }]
-              
+
               setMarcoConversation [{
                 text: """
                   MARCO: Never a dull moment, eh DUDER?
@@ -599,19 +599,19 @@ events =
 
   wiz: ->
     map.characters[5].I.x = 9
-    
+
     setSteveConversation [
       text: """
         STEVE: Gawd, another asshole...
       """
     ]
-    
+
     setMarcoConversation [
       text: """
         MARCO: I'm getting too old for this shit.
       """
     ]
-  
+
   fire: ->
     map.characters[0].I.x = -1
     map.updateItem "TV",
@@ -797,9 +797,9 @@ player = require("./player")
 
 showConversation [{
   text: """
-    Walk around and interact with stuff by pressing 
+    Walk around and interact with stuff by pressing
     the ARROW KEYS and SPACE BAR
-    
+
     Or not, it's up to you!
   """
 }, {

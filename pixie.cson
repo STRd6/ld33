@@ -2,6 +2,9 @@ version: "0.1.0"
 remoteDependencies: [
   "https://code.jquery.com/jquery-1.11.0.min.js"
 ]
+publish:
+  s3:
+    basePath: "public/danielx.net"
 dependencies:
   cornerstone: "distri/cornerstone:v0.2.8"
   "hotkeys": "distri/hotkeys:v0.2.0"

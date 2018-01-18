@@ -1,7 +1,7 @@
 module.exports = ->
   tileWidth = 32
   tileHeight = 32
-  
+
   tvURL = "http://1.pixiecdn.com/sprites/131781/original."
 
   t = 0
@@ -17,7 +17,7 @@ module.exports = ->
     return img
 
   Player = require "./player"
-  
+
   characters = [
     Player
       name: "STEVE"
@@ -37,7 +37,7 @@ module.exports = ->
         ]
       }, {
         text: """
-          STEVE: Yeah... well BOSS called up and told me to 
+          STEVE: Yeah... well BOSS called up and told me to
           cancel it...
           ...
           Sucks.
@@ -56,8 +56,8 @@ module.exports = ->
         """
       }, {
         text: """
-          STEVE: About that... have you been having any 
-          trouble with your paychecks? Because I haven't 
+          STEVE: About that... have you been having any
+          trouble with your paychecks? Because I haven't
           been able to cash mine the past few weeks...
         """
       }, {
@@ -75,8 +75,8 @@ module.exports = ->
       y: -1
       conversation: [{
         text: """
-          BROGRE: Heyy duder... We were having a party with 
-          some BudLight Lime® Lime-A-Ritas and were 
+          BROGRE: Heyy duder... We were having a party with
+          some BudLight Lime® Lime-A-Ritas and were
           wondering if we could borrow some rock salt...
         """
         event: "brogre0"
@@ -126,7 +126,7 @@ module.exports = ->
         text: """
           Fire erupts from the wizard's hands!
           A gigantic fireball fills the room!
-          The TV is destroyed!              
+          The TV is destroyed!
           ... and also STEVE died.
         """
         event: "fire"
@@ -142,7 +142,7 @@ module.exports = ->
         text: """
           AXE MANIAC: Looks like most of it is pretty
           over done...
-          
+
           Ah, this one's still fresh!
         """
         event: "butcher"
@@ -176,7 +176,7 @@ module.exports = ->
   """.split("\n")
   .map (row) ->
     row.split("")
-  
+
   Item = (I) ->
     if typeof I.url is "string"
       img = new Image
@@ -228,7 +228,7 @@ module.exports = ->
       x: 7
       y: 4
       url: "http://2.pixiecdn.com/sprites/131826/original."
-    
+
     Item
       name: "Crate"
       x: 9
@@ -251,7 +251,7 @@ module.exports = ->
       trigger: true
       conversation: [{
         text: """
-          A trapdoor in the ceiling opens and a rock 
+          A trapdoor in the ceiling opens and a rock
           falls on your head!
         """
       }, {
@@ -292,7 +292,7 @@ module.exports = ->
         text: """
           As you leave that death filled room, you
           pick up a sword and become...
-          
+
           An Adventurer!
         """
         event: ->
@@ -336,7 +336,7 @@ module.exports = ->
 
   replaceItem: (index, item) ->
     oldItem = items[index]
-    
+
     item.x ?= oldItem.I.x
     item.y ?= oldItem.I.y
 
@@ -361,7 +361,7 @@ module.exports = ->
       if item.I.x is x and item.I.y is y
         item.interact()
         interacted = true
-    
+
     return if interacted
 
     characters.forEach (character) ->

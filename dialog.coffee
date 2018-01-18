@@ -25,7 +25,7 @@ module.exports = (I={}) ->
     numberOfCharacters = Math.floor(I.age * I.speed)
 
     text = I.text[0...numberOfCharacters]
-    
+
     if I.age % 0.5 < 0.25
       text += "█"
 
@@ -35,7 +35,7 @@ module.exports = (I={}) ->
     y = 384
     width = 640
     height = 96
-    
+
     textColor = "#D0DDD8"
 
     # Draw frame
@@ -45,7 +45,7 @@ module.exports = (I={}) ->
       y: y
       width: width
       height: height
-    
+
     [0, 2].forEach (i) ->
       canvas.drawRect
         color: textColor
@@ -53,28 +53,28 @@ module.exports = (I={}) ->
         y: y + i
         width: width
         height: 1
-      
+
       canvas.drawRect
         color: textColor
         x: x
         y: y - i + height - 1
         width: width
         height: 1
-      
+
       canvas.drawRect
         color: textColor
         x: x + i
         y: y
         width: 1
         height: height
-      
+
       canvas.drawRect
         color: textColor
         x: x - i - 1 + width
         y: y
         width: 1
         height: height
-      
+
     # Draw text
     lines = text.split "\n"
     lines.forEach (line, i) ->
